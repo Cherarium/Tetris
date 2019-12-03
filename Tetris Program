@@ -28,19 +28,28 @@ namespace Tetris
         public static bool isKeyPressed = false;
         public static int linesCleared = 0, score = 0, level = 1;
       
+        //Method 
         static void Main()
         {
             SoundPlayer sp = new SoundPlayer();
             sp.SoundLocation = Environment.CurrentDirectory + "\\01_-_Tetris_Tengen_-_NES_-_Introduction.wav";
             sp.PlayLooping();
             
+            //Create in-game Border
             drawBorder();
+            
             Console.SetCursorPosition(4, 5);
             Console.WriteLine("Press any key");
             Console.ReadKey(true);
+            
+            //SoundPlayer Stop.
             sp.Stop();
+            
+            //SoundPlayer
             sp.SoundLocation = Environment.CurrentDirectory + "\\music.wav";
             sp.PlayLooping();
+            
+            //Timer Start
             timer.Start();
             dropTimer.Start();
             long time = timer.ElapsedMilliseconds;
@@ -50,6 +59,8 @@ namespace Tetris
             Console.WriteLine("Score " + score);
             Console.SetCursorPosition(25, 2);
             Console.WriteLine("LinesCleared " + linesCleared);
+            
+            //Tetris Block Spawn
             nexttet = new Tetrominoe();
             tet = nexttet;
             tet.Spawn();
@@ -61,9 +72,12 @@ namespace Tetris
             sp.SoundLocation = Environment.CurrentDirectory + "\\08_-_Tetris_Tengen_-_NES_-_Game_Over.wav";
             sp.Play();
             Console.SetCursorPosition(0, 0);
+            
+            //Would you like to play again? (Restart)
             Console.WriteLine("Game Over \n Replay? (Y/N)");
             string input = Console.ReadLine();
-
+            
+            //If user inpts "yes" or or "no" + case selective choice + restart world
             if (input == "y" || input == "Y")
             {
                 int[,] grid = new int[23, 10];
@@ -84,7 +98,8 @@ namespace Tetris
             else return;
 
         }
-
+        
+        //Fill a 23 by 10 Grid via through increments. 
         private static void fillGrid()
         {
             for (int i = 0; i < 23; ++i)
@@ -97,7 +112,7 @@ namespace Tetris
                 Console.WriteLine();
             }
         }
-
+        
         private static void Update()
         {
             while (true)//Update Loop
@@ -128,6 +143,8 @@ namespace Tetris
                 ClearBlock();
             } //end Update
         }
+        
+        //Win condition for a clear'd row (and) or line
         private static void ClearBlock()
         {
             int combo = 0;
